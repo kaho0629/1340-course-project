@@ -21,9 +21,21 @@ food expenses, etc.); and
 6) the accounting system allows budget setting. When expenses reach the
 budget, there should be an a
 
+
+
+
 ● A readme.md detailing the problem statement (i.e., what problem to solve), problem setting
 (e.g., reasonable assumptions), functionalities and features, input/output specifications,
 compilation and execution instructions. Simply put, this serves like a manual to your program
 ● Makefile
 ● Source files (.h / .cpp / .c)
 ● Sample input/output files (whenever appropriate)
+
+Code Requirement
+Your program should involve the following coding elements:
+● Dynamic memory management
+● File input/output
+● Data manipulation such as sorting, searching, adding/editing/deleting data records
+● Program codes in multiple files
+● Proper indentation and naming styles
+● In-code documentation
