@@ -1,41 +1,50 @@
 # 1340-course-project
 
-Learn how to manage our financial status is an important lesson for all of us. More and more people
-choose to use digital tools to manage their wealth efficiently. In this idea, we target to build an
-accounting system to help people keep track of their income and expense. Minimally, the system
-shall include basic functions including 
+## Problem Statement
+Tracking of their income and expense is a good way to manage their wealth more effectively. If people do not cultivate a good habit to manage their money, it would affect the plan of the future months or even years! With the popularity of electronics, using digital tools is a good way to help us to manage our money. Therefore, we are going to build up a simple and multifunction accounting system to track user financial status. By using different components, we can build up the basis of our programme. The followings are the basic functions of the programme:
+1.	Income and expenses records:
+-	User can add records of their income and expanse
+2.	Information of records:
+-	User can detail the records by adding dates, types of income and expanse or accounts
+3.	View of records
+-	User can view their records by categories in details
+4.	Statement of records
+-	User can view the daily, monthly or yearly statement.
+5.	Budget setting.
+-	User can set the limits on their budget daily, monthly and yearly.
+6.	Edit and recover the records
+-	User can edit and recover their previous records.
+7.	Suggestion in wealth allocation
+-	We can give a simple saving plan or expanse plan to our user by using their record.
+Those functions are the basic idea of our programme. We may add some new functions if there is a spark of new idea.
 
-1) add records of income and expenses
-2) the records should contain some basic information, like amount, date, types of income or expense (e.g. food, game,
-salary, etc.), account (e.g cash, bank card, credit card, etc.); 
-
-3) the records could be deleted and edited
-at any time; 
-
-4) users could view their records by date, type, and account; 
-
-5) the system should
-provide statistical report of users’ financial state (e.g. monthly income and expenses, percentage of
-food expenses, etc.); and 
-
-6) the accounting system allows budget setting. When expenses reach the
-budget, there should be an a
-
-
-
-
-## Problem statement 
-Tracking of their income and expense is a good way to manage their wealth more effectively. If people do not cultivate a good habit to manage their money, it would affect the plan of the future months or even years! With the popularity of the electronics, using digital tools is a good way to help us to manage our money. Therefore, we are going to build up a simple and multifunction accounting system to track user financial status. By using different components, we can build up the basis of the programme. 
 
 ## Problem setting
-
-Code Requirement
-Your program should involve the following coding elements:
-● Dynamic memory management
-● File input/output
-● Data manipulation such as sorting, searching, adding/editing/deleting data records
-● Program codes in multiple files
-● Proper indentation and naming styles
-● In-code documentation
-
-
+1.	What are the basis components of our programme?
+-	Record libraries, compilers, back up files
+2.	How is your programme function?
+-	User can first input the keywords trigger the function. For example, user input “Add E 100” and it will be translated as add $100 expense record into libraries.
+3.	How to add information to each record?
+-	We can provide some basic options to user in each information(e.g. date: now or customize, types of income, expanse: work, food, travel, or add a new type…)
+4.	How users view their previous record?
+-	First, type keyword “Record”. Then we can provide different options to sort and hide different types of records
+-	The following is an ideal example
+-	“Record I monthly parttime” This command will provide the “record” of “parttime” “I”ncome and shown in “monthly”. 
+5.	How users view their previous statement?
+-	First, type keyword “Statement”. Then we can provide options in different time scale and they can view the expanse or income report within that time.
+-	“Statement monthly 3/2019” This command will provide the “statement” in “3/2019”
+6.	How users set their budget?
+-	First, type keyword “Budget”. Then we can provide options in different time scale and types of expanse. Also, they can set the limits to give alerts when they used over a certain amount.
+-	“Budget coming weekly eat 1500” This command will set alert in 7 days afterwards. When the expanse in eating is over $1500. “Over Budget!!” is pop-up.
+-	“Budget present monthly eat 5000” This command will set alert in present month. When the expanse in eating is over $5000 in the same month. “Over Budget!!” is pop-up.
+7.	How users edit their records/ budget?
+-	No matter how users add a complete modification to the system(e.g. added an expanse with full details), the records and budget files will backup once(up to last 5 modification). User can recover up to last 5 modification.
+-	Also, users can modify their records directly.
+-	“Edit budget coming weekly eat 1500 correct present weekly eat 1500” This command will correct the budget setting from coming week to present week.
+-	“Edit budget coming weekly eat 1500 delete” This command will delete the budget setting.
+-	“Recover 1” This command will recover the system to last modification. (undo)
+8.	How to suggest user to spend their money properly?
+-	We can suggest a simple monthly saving plan to guide user to reduce certain part expense
+-	User input the saving target and we can suggest how to save their money more efficiently and what is their expanse limit and income target in each month/weekly
+-	“Suggest saving $5000” The system will calculate the income and expense last 30 days. If income-expense < 5000. The system will list out the top 3 variable expense in last 30 days and show how much variable expanse should you reduce each week/day.
+Those are the major problem settings. We expect most of the problems should appear when designing and coding. However, it gives a basic blueprint to our programme.
