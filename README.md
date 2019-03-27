@@ -31,7 +31,7 @@ Those functions are the basic idea of our programme. We may add some new functio
 -	The following is an ideal example
 -	“Record I monthly parttime” This command will provide the “record” of “parttime” “I”ncome and shown in “monthly”. 
 5.	How users view their previous statement?
--	First, type keyword “Statement”. Then we can provide options in different time scale and they can view the expanse or income report within that time.
+-	First, type keyword “Statement”. Then we can provide options in different time scale and they can view the expense or income report within that time.
 -	“Statement monthly 3/2019” This command will provide the “statement” in “3/2019”
 6.	How users set their budget?
 -	First, type keyword “Budget”. Then we can provide options in different time scale and types of expense. Also, they can set the limits to give alerts when they used over a certain amount.
