@@ -24,12 +24,10 @@ budget, there should be an a
 
 
 
-● A readme.md detailing the problem statement (i.e., what problem to solve), problem setting
-(e.g., reasonable assumptions), functionalities and features, input/output specifications,
-compilation and execution instructions. Simply put, this serves like a manual to your program
-● Makefile
-● Source files (.h / .cpp / .c)
-● Sample input/output files (whenever appropriate)
+## Problem statement 
+Tracking of their income and expense is a good way to manage their wealth more effectively. If people do not cultivate a good habit to manage their money, it would affect the plan of the future months or even years! With the popularity of the electronics, using digital tools is a good way to help us to manage our money. Therefore, we are going to build up a simple and multifunction accounting system to track user financial status. By using different components, we can build up the basis of the programme. 
+
+## Problem setting
 
 Code Requirement
 Your program should involve the following coding elements:
