@@ -1,6 +1,6 @@
 // ENGG 1340 course project - Financial system.
 // The program includes the following functions:
-// add, view, statment, edit, suggest, budget.
+// add, view, print statment, edit, suggest wealth allocation, set budget.
 #include<iostream>
 #include<string>
 #include<fstream>
@@ -93,7 +93,7 @@ void search_record(char transaction, string date, string type)
   }
 }
 
-void view()
+void view_in_categories()
 {
   char transaction;
   string date, type;
@@ -107,7 +107,7 @@ void view()
   cin >> type;
 
   if(transaction != 'I' && transaction != 'E')
-    cout << "Invalid input." << endl;
+    cout << "\nInvalid input." << endl;
   else if(transaction == 'I')
   {
     fin_i.open("income.txt");
@@ -115,6 +115,7 @@ void view()
       cout << "Fail to open file." << endl;
     else
       search_record('I', date, type);
+    fin_i.close();
   }
   else if(transaction == 'E')
   {
@@ -123,14 +124,16 @@ void view()
       cout << "Fail to open file." << endl;
     else
       search_record('E', date, type);
+    fin_e.close();
   }
 }
 
 
 int main() {
   int option;  //Option can be add, view etc.
+  cout << "1. Add\n" << "2. View in categories\n" << "3. Edit\n";
+  cout << "4. Print statment\n" << "5. Set budget\n" << "6. Suggestion\n" << "0. Exit"<< endl;
   cout << "Choose your option: ";
-  cout << " 1. Add " << "2. View " << "3. Edit " << "0. Exit"<< endl;
   cin >> option;
 
   while(option != 0)
@@ -148,11 +151,9 @@ int main() {
       }
       case 2:
       {
-        cout << "How would you like to view: ";
-        // input format: transaction date type
-        // e.g. E 2019-Apr food, E 2019-Mar shopping.
-
-        view();
+        cout << "\n******View in categories******" << endl;
+        view_in_categories();
+        cout << endl;
         break;
       }
 
@@ -162,8 +163,9 @@ int main() {
 
 
     }
-    cout << "\nChoose your option: ";
-    cout << " 1. Add " << "2. View " << "3. Edit " << "0. Exit"<< endl;
+    cout << "1. Add\n" << "2. View in categories\n" << "3. Edit\n";
+    cout << "4. Print statment\n" << "5. Set budget\n" << "6. Suggestion\n" << "0. Exit"<< endl;
+    cout << "Choose your option: ";
     cin >> option;
   }
 
