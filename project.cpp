@@ -27,14 +27,17 @@ void add(int n)
   data * data_ptr = new data[n] ();
   for(int i = 0; i < n; i++)
   {
-    cout << "Income(I) or Expense(E): ";
+    cout << "Income(I) or Expense(E) : ";
     cin >> data_ptr[i].transaction;
 
-    cout << "Amount of money: ";
+    cout << "Amount of money : ";
     cin >> data_ptr[i].amount;
 
-    cout << "Date and Type: (Format of date input, e.g. 2019-Apr-23)" << endl;
-    cin >> data_ptr[i].date >> data_ptr[i].type;
+    cout << "Date (Format of date input, e.g. 2019-Apr-23) : ";
+    cin >> data_ptr[i].date;
+
+    cout << "Type : ";
+    cin >> data_ptr[i].type;
 
     if(data_ptr[i].transaction == 'E')
       fout_e << data_ptr[i].amount << " " << data_ptr[i].date << " " << data_ptr[i].type << endl;
@@ -48,13 +51,80 @@ void add(int n)
   delete [] data_ptr;
 }
 
-
-void view(string transaction, string date, string type)
+void search_record(char transaction, string date, string type)
 {
+  if(date == "NA")  // Do not limites by date. Any date will do.
+    date  = "-";
+  else if(date.length() != 11)
+    date = date + "-"; // Prevent the situation that if user input year 2019, and there is a record of $2019.
 
+  if(type == "NA")  // Do not limited by type. Any type will do.
+    type = " ";
+
+  string data;
+  cout << "\nResult : " << endl;
+  if(transaction == 'I')
+  {
+    int n = 0;
+    while( getline(fin_i, data) )
+    {
+      if(data.find(date) != -1 && data.find(type) != -1)
+      {
+        cout << data << endl;
+        n++;
+      }
+    }
+    if(n == 0)
+      cout << "No record found." << endl;
+  }
+  else if(transaction == 'E')
+  {
+    int n = 0;
+    while( getline(fin_e, data) )
+    {
+      if(data.find(date) != -1 && data.find(type) != -1)
+      {
+        cout << data << endl;
+        n++;
+      }
+    }
+    if(n == 0)
+      cout << "No record found." << endl;
+  }
 }
 
+void view()
+{
+  char transaction;
+  string date, type;
+  cout << "Income(I) / Expense(E): ";
+  cin >> transaction;
 
+  cout << "Time period: ";
+  cin >> date;
+
+  cout << "Type: ";
+  cin >> type;
+
+  if(transaction != 'I' && transaction != 'E')
+    cout << "Invalid input." << endl;
+  else if(transaction == 'I')
+  {
+    fin_i.open("income.txt");
+    if(fin_i.fail())
+      cout << "Fail to open file." << endl;
+    else
+      search_record('I', date, type);
+  }
+  else if(transaction == 'E')
+  {
+    fin_e.open("expense.txt");
+    if(fin_e.fail())
+      cout << "Fail to open file." << endl;
+    else
+      search_record('E', date, type);
+  }
+}
 
 
 int main() {
@@ -65,35 +135,34 @@ int main() {
 
   while(option != 0)
   {
-    if(option == 1)
+    switch (option)
     {
-      int n;
-      cout << "How many records you would like to add: ";
-      cin >> n;
-      cout << "input format: transaction amount date type" << endl;
-      add(n);
+      case 1:
+      {
+        int n;
+        cout << "How many records you would like to add: ";
+        cin >> n;
+        cout << "*******Input format: transaction amount date type******" << endl;
+        add(n);
+        break;
+      }
+      case 2:
+      {
+        cout << "How would you like to view: ";
+        // input format: transaction date type
+        // e.g. E 2019-Apr food, E 2019-Mar shopping.
+
+        view();
+        break;
+      }
+
+
+
+
+
+
     }
-
-    else if(option == 2)
-    {
-      cout << "How would you like to view: (input format: transaction date type)";
-      // input format: transaction date type
-      // e.g. E 2019-Apr food, E 2019-Mar shopping.
-
-      string transaction, date, type;
-      cin >> transaction >> date >> type;
-
-      view(transaction, date, type);
-    }
-    else if(option == 3)
-    {
-      
-    }
-
-
-
-
-    cout << "Choose your option: ";
+    cout << "\nChoose your option: ";
     cout << " 1. Add " << "2. View " << "3. Edit " << "0. Exit"<< endl;
     cin >> option;
   }
