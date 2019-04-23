@@ -16,7 +16,11 @@ int main() {
 
   while(option != "Exit")
   {
-
+    string input;
+    getline(cin, input);
+    if(option == "Add")
+    {
+      add_record(
 
 
 
