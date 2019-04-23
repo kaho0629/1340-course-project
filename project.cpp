@@ -35,6 +35,7 @@ void add(int n)
 
   fout_i.close();
   fout_e.close();
+  delete [] data_ptr;
 }
 
 
