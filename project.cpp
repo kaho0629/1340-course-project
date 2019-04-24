@@ -1,18 +1,17 @@
 // ENGG 1340 course project - Financial system.
 // The program includes the following functions:
-// add, view, print statment, edit, suggest wealth allocation, set budget.
+// add, view, print statement, edit, suggest wealth allocation, set budget.
 #include<iostream>
 #include<string>
 #include<fstream>
 
 using namespace std;
 
-ofstream fout_i, fout_e, fout_tmp;  //For income and expense files, tmp stores the deleted record.
-ifstream fin_i, fin_e, fin_tmp;  //For income and expense files, tmp is for recover the deleted record. (Undo)
+ofstream fout_i, fout_e, fout_tmp;  //For income and expense files.
+ifstream fin_i, fin_e, fin_tmp;  //For income and expense files.
 
 struct data
 {
-  char transaction; // Income or Expense.
   double amount; // Amount of money.
   string date, type; // Date and type.
 };
@@ -24,11 +23,12 @@ void add(int n)
   fout_i.open("income.txt", ios::app);
   fout_e.open("expense.txt", ios::app);
 
+  char transaction;
   data * data_ptr = new data[n] ();
   for(int i = 0; i < n; i++)
   {
     cout << "Income(I) or Expense(E) : ";
-    cin >> data_ptr[i].transaction;
+    cin >> transaction;
 
     cout << "Amount of money : ";
     cin >> data_ptr[i].amount;
@@ -39,10 +39,10 @@ void add(int n)
     cout << "Type : ";
     cin >> data_ptr[i].type;
 
-    if(data_ptr[i].transaction == 'E')
+    if(transaction == 'E')
       fout_e << data_ptr[i].amount << " " << data_ptr[i].date << " " << data_ptr[i].type << endl;
 
-    else if(data_ptr[i].transaction == 'I')
+    else if(transaction == 'I')
       fout_i << data_ptr[i].amount << " " << data_ptr[i].date << " " << data_ptr[i].type << endl;
   }
 
@@ -70,7 +70,7 @@ void search_record(char transaction, string date, string type)
     {
       if(data.find(date) != -1 && data.find(type) != -1)
       {
-        cout << data << endl;
+        cout << '+' << data << endl;
         n++;
       }
     }
@@ -84,7 +84,7 @@ void search_record(char transaction, string date, string type)
     {
       if(data.find(date) != -1 && data.find(type) != -1)
       {
-        cout << data << endl;
+        cout << '-' << data << endl;
         n++;
       }
     }
@@ -128,11 +128,47 @@ void view_in_categories()
   }
 }
 
+void make_statement(string month)
+{
+  double sum = 0;
+  data d;
+  fin_e.open("expense.txt");
+  fin_i.open("income.txt");
+  if(fin_e.fail() || fin_i.fail())
+    cout << "Fail to open file." << endl;
+  else
+  {
+    while(fin_i >> d.amount)
+    {
+      fin_i >> d.date >> d.type;
+      if((d.date).find(month) != -1)
+      {
+        sum += d.amount;
+        cout << " " << d.date << "   +" << d.amount << endl;
+      }
+    }
+    while(fin_e >> d.amount)
+    {
+      fin_e >> d.date >> d.type;
+      if((d.date).find(month) != -1)
+      {
+        sum -= d.amount;
+        cout << " " << d.date << "   -" << d.amount << endl;
+      }
+    }
+    cout << "\nNet Position : " << sum  << "\n" << endl;
+  }
+  fin_i.close();
+  fin_e.close();
+}
+
+
+
 
 int main() {
   int option;  //Option can be add, view etc.
-  cout << "1. Add\n" << "2. View in categories\n" << "3. Edit\n";
-  cout << "4. Print statment\n" << "5. Set budget\n" << "6. Suggestion\n" << "0. Exit"<< endl;
+  cout << "1. Add\n" << "2. View in categories\n" << "3. Print statement\n";
+  cout << "4. Edit\n" << "5. Set budget\n" << "6. Suggestion\n" << "0. Exit"<< endl;
   cout << "Choose your option: ";
   cin >> option;
 
@@ -143,7 +179,7 @@ int main() {
       case 1:
       {
         int n;
-        cout << "How many records you would like to add: ";
+        cout << "How many records would you like to add: ";
         cin >> n;
         cout << "*******Input format: transaction amount date type******" << endl;
         add(n);
@@ -156,7 +192,15 @@ int main() {
         cout << endl;
         break;
       }
-
+      case 3:
+      {
+        cout << "******Print Statement******\nEnter month : ";
+        string month;
+        cin >> month;
+        month = "2019-" + month;
+        make_statement(month);
+        break;
+      }
 
 
 
