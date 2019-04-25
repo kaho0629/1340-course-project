@@ -77,7 +77,7 @@ void view_in_categories(char transaction, string date, string type)
 
     string data;
     int counter = 1;
-    cout << endl;
+    cout << endl << filename.erase(filename.length()-4, 4) << " record : " << endl;
     while( getline(fin, data) )
     {
       if(data.find(date) != -1 && data.find(type) != -1)
