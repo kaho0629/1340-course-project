@@ -76,18 +76,18 @@ void view_in_categories(char transaction, string date, string type)
       type = " ";
 
     string data;
-    int counter = 0;
+    int counter = 1;
     cout << endl;
     while( getline(fin, data) )
     {
       if(data.find(date) != -1 && data.find(type) != -1)
       {
-        cout << data << endl;
+        cout << counter << ". " << data << endl;
         counter++;
       }
-      if(counter == 0)
-        cout << "No record found!\n";
     }
+    if(counter == 1)
+      cout << "No record found!\n";
     fin.close();
   }
 }
