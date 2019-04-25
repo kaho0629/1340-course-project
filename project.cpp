@@ -102,13 +102,15 @@ void make_statement(string month)
     cout << "Fail to open file." << endl;
   else
   {
+    int counter = 1;
     while(fin_i >> d.amount)
     {
       fin_i >> d.date >> d.type;
       if((d.date).find(month) != -1)
       {
         sum += d.amount;
-        cout << " " << d.date << "   +" << d.amount << endl;
+        cout << counter << ". " << d.date << "   +" << d.amount << endl;
+        counter++;
       }
     }
     while(fin_e >> d.amount)
@@ -117,10 +119,11 @@ void make_statement(string month)
       if((d.date).find(month) != -1)
       {
         sum -= d.amount;
-        cout << " " << d.date << "   -" << d.amount << endl;
+        cout << counter << ". " << d.date << "   -" << d.amount << endl;
+        counter++;
       }
     }
-    cout << "\nNet Position : " << sum  << "\n" << endl;
+    cout << "\nNet Position :   " << sum  << "\n" << endl;
   }
   fin_i.close();
   fin_e.close();
