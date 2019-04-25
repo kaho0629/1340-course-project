@@ -183,7 +183,7 @@ void change_info(char t)
     filename = "expense.txt";
 
   view_in_categories(t, "NA", "NA");
-  cout << "\nEnter the no. of the record to be edit : ";
+  cout << "\nWhich record would you like to edit (Enter the no.) : ";
   cin >> n;
   cout << "What would you like to edit : \n1. Amount\n2. Date\n3. Type\n4. All (Replace)\nYour option : ";
   cin >> info_type;
@@ -201,24 +201,28 @@ void change_info(char t)
         {
           cout << "Current amount : " << d.amount << "  New amount : ";
           cin >> d.amount;
+          cout << "New record : " << d.amount << " " << d.date << " " << d.type << endl;
           break;
         }
         case 2:
         {
           cout << "Current date : " << d.date << "  New date : ";
           cin >> d.date;
+          cout << "New record : " << d.amount << " " << d.date << " " << d.type << endl;
           break;
         }
         case 3:
         {
           cout << "Current type : " << d.type << "  New type : ";
           cin >> d.type;
+          cout << "New record : " << d.amount << " " << d.date << " " << d.type << endl;
           break;
         }
         case 4:
         {
           cout << "Current record : " << d.amount << " " << d.date << " " << d.type << "  New record : ";
           cin >> d.amount >> d.date >> d.type;
+          cout << "New record : " << d.amount << " " << d.date << " " << d.type << endl;
           break;
         }
       }
