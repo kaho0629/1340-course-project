@@ -170,7 +170,74 @@ void del_record()
   fout.close();
 }
 
+void change_info(char t)
+{
+  string filename;
+  int n, info_type, counter = 1;
+  data d;
+  if(t == 'I')  //Delete an income
+    filename = "income.txt";
+  else if(t == 'E')
+    filename = "expense.txt";
 
+  view_in_categories(t, "NA", "NA");
+  cout << "\nEnter the no. of the record to be edit : ";
+  cin >> n;
+  cout << "What would you like to edit : \n1. Amount\n2. Date\n3. Type\n4. All (Replace)\nYour option : ";
+  cin >> info_type;
+
+  fin.open(filename.c_str());
+  fout_tmp.open("temp.txt");
+
+  while(fin >> d.amount)
+  {
+    fin >> d.date >> d.type;
+    if(counter == n)  // Editing the information of the target record.
+    {
+      switch(info_type)
+      {
+        case 1:
+        {
+          cout << "Current amount : " << d.amount << "  New amount : ";
+          cin >> d.amount;
+          break;
+        }
+        case 2:
+        {
+          cout << "Current date : " << d.date << "  New date : ";
+          cin >> d.date;
+          break;
+        }
+        case 3:
+        {
+          cout << "Current type : " << d.type << "  New type : ";
+          cin >> d.type;
+          break;
+        }
+        case 4:
+        {
+          cout << "Current record : " << d.amount << " " << d.date << " " << d.type << "  New record : ";
+          cin >> d.amount >> d.date >> d.type;
+          break;
+        }
+      }
+    }
+    counter++;
+    fout_tmp << d.amount << " " << d.date << " " << d.type << endl;
+  }
+  fin.close();
+  fout_tmp.close();
+
+  fout.open(filename.c_str());
+  fin_tmp.open("temp.txt");
+  while(fin_tmp >> d.amount)
+  {
+    fin_tmp >> d.date >> d.type;
+    fout << d.amount << " " << d.date << " " << d.type << endl;
+  }
+  fout.close();
+  fin_tmp.close();
+}
 
 
 
@@ -237,7 +304,10 @@ int main() {
         }
         else if(c == 2)
         {
-
+          char t;
+          cout << "Edit an income(I) / expense(E) record : ";
+          cin >> t;
+          change_info(t);
         }
         else
           cout << "Invalid option. " << endl;
