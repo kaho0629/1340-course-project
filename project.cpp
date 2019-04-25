@@ -26,9 +26,9 @@ void add(int n)
 
   char transaction;
   data * data_ptr = new data[n] ();
-  for(int i = 0; i < n; i++)
+  for(int i = 1; i <= n; i++)
   {
-    cout << "Income(I) or Expense(E) : ";
+    cout << '(' << i << ')' << "\nIncome(I) or Expense(E) : ";
     cin >> transaction;
 
     cout << "Amount of money : ";
@@ -87,7 +87,7 @@ void view_in_categories(char transaction, string date, string type)
       }
     }
     if(counter == 1)
-      cout << "No record found!\n";
+      cout << "No " << filename.erase(filename.length()-4, 4)<< " record found!";
     fin.close();
   }
 }
@@ -198,14 +198,18 @@ int main() {
         string date, type;
         cout << "Income(I) / Expense(E): ";
         cin >> transaction;
-
         cout << "Time period: ";
         cin >> date;
-
         cout << "Type: ";
         cin >> type;
-        view_in_categories(transaction, date, type);
-        cout << endl;
+        
+        if(transaction == 'B')
+        {
+          view_in_categories('I', date, type);
+          view_in_categories('E', date, type);
+        }
+        else
+          view_in_categories(transaction, date, type);
         break;
       }
       case 3: //Statement
@@ -237,7 +241,7 @@ int main() {
         break;
       }
     }
-    cout << "1. Add\n" << "2. View in categories\n" << "3. Print statement\n";
+    cout << "\n\n1. Add\n" << "2. View in categories\n" << "3. Print statement\n";
     cout << "4. Edit\n" << "5. Set budget\n" << "6. Get suggestion\n" << "0. Exit"<< endl;
     cout << "Choose your option: ";
     cin >> option;
