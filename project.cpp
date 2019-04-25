@@ -155,12 +155,12 @@ void del_record()
   fout_tmp.close();
 
   fin_tmp.open("temp.txt"); //get data from temp.txt
-  fout.open(filename.c_str());  //open income.txt with no previos records.
+  fout.open(filename.c_str());  //open income.txt/expense.txt with no previos records.
   while(fin_tmp >> dr.amount)
   {
     fin_tmp >> dr.date >> dr.type;
     fout << dr.amount << " " << dr.date << " " << dr.type << endl;
-  } // output records in temp.txt to income.txt. The target will be removed.
+  } // output records in temp.txt to income.txt/expense.txt. The target will be removed.
   fin_tmp.close();
   fout.close();
 }
