@@ -129,7 +129,7 @@ void make_statement(string month)
 void del_record()
 {
   char t;
-  data dr, du;
+  data d;
   string filename;
   cout << "\nDelete a record of Income(I) / Expense(E) : ";
   cin >> t;
@@ -138,33 +138,34 @@ void del_record()
   else if(t == 'E')
     filename = "expense.txt";
 
-  fout_tmp.open("temp.txt");
   view_in_categories(t, "NA", "NA");
-  cout << "\nEnter the record to be deleted : ";
-  cin >> du.amount >> du.date >> du.type; // the target record.
+  cout << "\nEnter the no. of the record to be deleted : ";
+  int n, counter = 0;
+  cin >> n; // the target record's no.
 
   fin.open(filename.c_str());
-  while(fin >> dr.amount)
+  fout_tmp.open("temp.txt");
+  while(fin >> d.amount)
   {
-    fin >> dr.date >> dr.type;
-    if(dr.amount == du.amount && dr.date == du.date && dr.type == du.type)
+    counter++;
+    fin >> d.date >> d.type;
+    if(counter == n)  // when it comes to the target record.
       continue;
-    fout_tmp  << dr.amount << " " << dr.date << " " << dr.type << endl;
+    fout_tmp << d.amount << " " << d.date << " " << d.type << endl;
   }  // output all the records except the target record to a temporary file.
   fin.close();
   fout_tmp.close();
 
   fin_tmp.open("temp.txt"); //get data from temp.txt
   fout.open(filename.c_str());  //open income.txt/expense.txt with no previos records.
-  while(fin_tmp >> dr.amount)
+  while(fin_tmp >> d.amount)
   {
-    fin_tmp >> dr.date >> dr.type;
-    fout << dr.amount << " " << dr.date << " " << dr.type << endl;
+    fin_tmp >> d.date >> d.type;
+    fout << d.amount << " " << d.date << " " << d.type << endl;
   } // output records in temp.txt to income.txt/expense.txt. The target will be removed.
   fin_tmp.close();
   fout.close();
 }
-
 
 
 
