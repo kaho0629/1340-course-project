@@ -4,11 +4,12 @@
 #include<iostream>
 #include<string>
 #include<fstream>
+#include<iomanip>
 
 using namespace std;
 
-ofstream fout_i, fout_e, fout_tmp;  //For income and expense files.
-ifstream fin_i, fin_e, fin_tmp;  //For income and expense files.
+ofstream fout, fout_i, fout_e, fout_tmp;  //For income and expense files.
+ifstream fin, fin_i, fin_e, fin_tmp;  //For income and expense files.
 
 struct data
 {
@@ -33,10 +34,10 @@ void add(int n)
     cout << "Amount of money : ";
     cin >> data_ptr[i].amount;
 
-    cout << "Date (Format of date input, e.g. 2019-Apr-23) : ";
+    cout << "Date (Format of date input, e.g. 2019-Apr-23. Put \"NA\" if not applicable) : \n";
     cin >> data_ptr[i].date;
 
-    cout << "Type : ";
+    cout << "Type (e.g. Food, Entertainment, Salary, etc. Put \"NA\" if not applicable) : \n";
     cin >> data_ptr[i].type;
 
     if(transaction == 'E')
@@ -51,80 +52,43 @@ void add(int n)
   delete [] data_ptr;
 }
 
-void search_record(char transaction, string date, string type)
+void view_in_categories(char transaction, string date, string type)
 {
-  if(date == "NA")  // Do not limites by date. Any date will do.
-    date  = "-";
-  else if(date.length() != 11)
-    date = date + "-"; // Prevent the situation that if user input year 2019, and there is a record of $2019.
-
-  if(type == "NA")  // Do not limited by type. Any type will do.
-    type = " ";
-
-  string data;
-  cout << "\nResult : " << endl;
-  if(transaction == 'I')
-  {
-    int n = 0;
-    while( getline(fin_i, data) )
-    {
-      if(data.find(date) != -1 && data.find(type) != -1)
-      {
-        cout << '+' << data << endl;
-        n++;
-      }
-    }
-    if(n == 0)
-      cout << "No record found." << endl;
-  }
-  else if(transaction == 'E')
-  {
-    int n = 0;
-    while( getline(fin_e, data) )
-    {
-      if(data.find(date) != -1 && data.find(type) != -1)
-      {
-        cout << '-' << data << endl;
-        n++;
-      }
-    }
-    if(n == 0)
-      cout << "No record found." << endl;
-  }
-}
-
-void view_in_categories()
-{
-  char transaction;
-  string date, type;
-  cout << "Income(I) / Expense(E): ";
-  cin >> transaction;
-
-  cout << "Time period: ";
-  cin >> date;
-
-  cout << "Type: ";
-  cin >> type;
-
+  string filename;
   if(transaction != 'I' && transaction != 'E')
     cout << "\nInvalid input." << endl;
   else if(transaction == 'I')
-  {
-    fin_i.open("income.txt");
-    if(fin_i.fail())
-      cout << "Fail to open file." << endl;
-    else
-      search_record('I', date, type);
-    fin_i.close();
-  }
+    filename = "income.txt";
   else if(transaction == 'E')
+    filename = "expense.txt";
+
+  fin.open(filename.c_str());
+  if(fin.fail())
+    cout << "\nFail to open file.\n";
+  else
   {
-    fin_e.open("expense.txt");
-    if(fin_e.fail())
-      cout << "Fail to open file." << endl;
-    else
-      search_record('E', date, type);
-    fin_e.close();
+    if(date == "NA")  // Do not limites by date. Any date will do.
+      date  = "-";
+    else if(date.length() != 11)
+      date = date + "-"; // Prevent the situation that if user input year 2019, and there is a record of $2019.
+
+    if(type == "NA")  // Do not limited by type. Any type will do.
+      type = " ";
+
+    string data;
+    int counter = 0;
+    cout << endl;
+    while( getline(fin, data) )
+    {
+      if(data.find(date) != -1 && data.find(type) != -1)
+      {
+        cout << data << endl;
+        counter++;
+      }
+      if(counter == 0)
+        cout << "No record found!\n";
+    }
+    fin.close();
   }
 }
 
@@ -162,6 +126,47 @@ void make_statement(string month)
   fin_e.close();
 }
 
+void del_record()
+{
+  char t;
+  data dr, du;
+  string filename;
+  cout << "\nDelete a record of Income(I) / Expense(E) : ";
+  cin >> t;
+  if(t == 'I')  //Delete an income
+    filename = "income.txt";
+  else if(t == 'E')
+    filename = "expense.txt";
+
+  fout_tmp.open("temp.txt");
+  view_in_categories(t, "NA", "NA");
+  cout << "\nEnter the record to be deleted : ";
+  cin >> du.amount >> du.date >> du.type; // the target record.
+
+  fin.open(filename.c_str());
+  while(fin >> dr.amount)
+  {
+    fin >> dr.date >> dr.type;
+    if(dr.amount == du.amount && dr.date == du.date && dr.type == du.type)
+      continue;
+    fout_tmp  << dr.amount << " " << dr.date << " " << dr.type << endl;
+  }  // output all the records except the target record to a temporary file.
+  fin.close();
+  fout_tmp.close();
+
+  fin_tmp.open("temp.txt"); //get data from temp.txt
+  fout.open(filename.c_str());  //open income.txt with no previos records.
+  while(fin_tmp >> dr.amount)
+  {
+    fin_tmp >> dr.date >> dr.type;
+    fout << dr.amount << " " << dr.date << " " << dr.type << endl;
+  } // output records in temp.txt to income.txt. The target will be removed.
+  fin_tmp.close();
+  fout.close();
+}
+
+
+
 
 
 
@@ -176,39 +181,63 @@ int main() {
   {
     switch (option)
     {
-      case 1:
+      case 1: //Add records
       {
         int n;
         cout << "How many records would you like to add: ";
         cin >> n;
-        cout << "*******Input format: transaction amount date type******" << endl;
         add(n);
-        break;
-      }
-      case 2:
-      {
-        cout << "\n******View in categories******" << endl;
-        view_in_categories();
         cout << endl;
         break;
       }
-      case 3:
+      case 2: //View in categories
+      {
+        cout << "\n******View in categories******" << endl;
+        char transaction;
+        string date, type;
+        cout << "Income(I) / Expense(E): ";
+        cin >> transaction;
+
+        cout << "Time period: ";
+        cin >> date;
+
+        cout << "Type: ";
+        cin >> type;
+        view_in_categories(transaction, date, type);
+        cout << endl;
+        break;
+      }
+      case 3: //Statement
       {
         cout << "******Print Statement******\nEnter month : ";
         string month;
         cin >> month;
+
         month = "2019-" + month;
         make_statement(month);
         break;
       }
+        case 4: //Edit record
+      {
+        cout << "******Edit records******\n";
+        cout << "You may choose to : \n1. Delete\n2. Replace\nEnter your option : ";
+        int c;
+        cin >> c;
+        if(c == 1)
+        {
+          del_record();
+        }
+        else if(c == 2)
+        {
 
-
-
-
-
+        }
+        else
+          cout << "Invalid option. " << endl;
+        break;
+      }
     }
-    cout << "1. Add\n" << "2. View in categories\n" << "3. Edit\n";
-    cout << "4. Print statment\n" << "5. Set budget\n" << "6. Suggestion\n" << "0. Exit"<< endl;
+    cout << "1. Add\n" << "2. View in categories\n" << "3. Print statement\n";
+    cout << "4. Edit\n" << "5. Set budget\n" << "6. Get suggestion\n" << "0. Exit"<< endl;
     cout << "Choose your option: ";
     cin >> option;
   }
