@@ -34,10 +34,13 @@ void add(int n)
     cout << "Amount of money : ";
     cin >> data_ptr[i].amount;
 
-    cout << "Date (Format of date input, e.g. 2019-Apr-23. Put \"NA\" if not applicable) : \n";
+    cout << "The format of input date : YYYY-MMM-DD.  e.g 2019-APR-27, 2019-APR-DD(no exact day)." << endl;
+    cout << "Date : ";
     cin >> data_ptr[i].date;
 
-    cout << "Type (e.g. Food, Entertainment, Salary, etc. Put \"NA\" if not applicable) : \n";
+    cout << "All the input letters should be in upppercase. And the space should be replaced by '-' if necessary." << endl;
+    cout << "e.g. FOOD" << endl;
+    cout << "Type : ";
     cin >> data_ptr[i].type;
 
     if(transaction == 'E')
@@ -123,7 +126,7 @@ void make_statement(string month)
         counter++;
       }
     }
-    cout << "\nNet Position :   " << sum  << "\n" << endl;
+    cout << "\nNet Position :   " << sum << "\n" << endl;
   }
   fin_i.close();
   fin_e.close();
@@ -241,6 +244,7 @@ void change_info(char t)
 
 
 
+
 int main() {
   int option;  //Option can be add, view etc.
   cout << "1. Add\n" << "2. View in categories\n" << "3. Print statement\n";
@@ -266,13 +270,13 @@ int main() {
         cout << "\n******View in categories******" << endl;
         char transaction;
         string date, type;
-        cout << "Income(I) / Expense(E): ";
+
+        cout << "Income(I) / Expense(E) / Both(B) : ";
         cin >> transaction;
         cout << "Time period: ";
         cin >> date;
         cout << "Type: ";
         cin >> type;
-        
         if(transaction == 'B')
         {
           view_in_categories('I', date, type);
@@ -288,14 +292,14 @@ int main() {
         string month;
         cin >> month;
 
-        month = "2019-" + month;
+        month = "2019-" + month;  //Only print statment that in 2019.
         make_statement(month);
         break;
       }
-        case 4: //Edit record
+      case 4: //Edit record
       {
         cout << "******Edit records******\n";
-        cout << "You may choose to : \n1. Delete\n2. Replace\nEnter your option : ";
+        cout << "You may choose to : \n1. Delete\n2. Change information\nEnter your option : ";
         int c;
         cin >> c;
         if(c == 1)
@@ -312,6 +316,14 @@ int main() {
         else
           cout << "Invalid option. " << endl;
         break;
+      }
+      case 5:
+      {
+
+      }
+      case 6:
+      {
+
       }
     }
     cout << "\n\n1. Add\n" << "2. View in categories\n" << "3. Print statement\n";
