@@ -108,9 +108,8 @@ void make_statement(string month)
   else
   {
     int counter = 1;
-    while(fin_i >> d.amount)
+    while(fin_i >> d.amount >> d.date >> d.type)
     {
-      fin_i >> d.date >> d.type;
       if((d.date).find(month) != -1)
       {
         sum += d.amount;
@@ -118,9 +117,8 @@ void make_statement(string month)
         counter++;
       }
     }
-    while(fin_e >> d.amount)
+    while(fin_e >> d.amount >> d.date >> d.type)
     {
-      fin_e >> d.date >> d.type;
       if((d.date).find(month) != -1)
       {
         sum -= d.amount;
@@ -153,10 +151,9 @@ void del_record()
 
   fin.open(filename.c_str());
   fout_tmp.open("temp.txt");
-  while(fin >> d.amount)
+  while(fin >> d.amount >> d.date >> d.type)
   {
     counter++;
-    fin >> d.date >> d.type;
     if(counter == n)  // when it comes to the target record.
       continue;
     fout_tmp << d.amount << " " << d.date << " " << d.type << endl;
@@ -166,11 +163,9 @@ void del_record()
 
   fin_tmp.open("temp.txt"); //get data from temp.txt
   fout.open(filename.c_str());  //open income.txt/expense.txt with no previos records.
-  while(fin_tmp >> d.amount)
-  {
-    fin_tmp >> d.date >> d.type;
+  while(fin_tmp >> d.amount >> d.date >> d.type)
     fout << d.amount << " " << d.date << " " << d.type << endl;
-  } // output records in temp.txt to income.txt/expense.txt. The target will be removed.
+   // output records in temp.txt to income.txt/expense.txt. The target will be removed.
   fin_tmp.close();
   fout.close();
 }
@@ -196,9 +191,8 @@ void change_info(char t)
   fin.open(filename.c_str());
   fout_tmp.open("temp.txt");
 
-  while(fin >> d.amount)
+  while(fin >> d.amount >> d.date >> d.type)
   {
-    fin >> d.date >> d.type;
     if(counter == n)  // Editing the information of the target record.
     {
       switch(info_type)
@@ -237,14 +231,13 @@ void change_info(char t)
 
   fout.open(filename.c_str());
   fin_tmp.open("temp.txt");
-  while(fin_tmp >> d.amount)
-  {
-    fin_tmp >> d.date >> d.type;
+  while(fin_tmp >> d.amount >> d.date >> d.type)
     fout << d.amount << " " << d.date << " " << d.type << endl;
-  }
+  
   fout.close();
   fin_tmp.close();
 }
+
 //function of renew the budget.txt
 void renewBudget()
 {
