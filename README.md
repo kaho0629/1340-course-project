@@ -42,12 +42,7 @@ Those functions are the basic idea of our programme. We may add some new functio
 -	Also, users can modify their records directly.
 -	“Edit budget coming weekly eat 1500 correct present weekly eat 1500” This command will correct the budget setting from coming week to present week.
 -	“Edit budget coming weekly eat 1500 delete” This command will delete the budget setting.
--	“Recover 1” This command will recover the system to last modification. (undo)
-8.	How to suggest user to spend their money properly?
--	We can suggest a simple monthly saving plan to guide user to reduce certain part expense
--	User input the saving target and we can suggest how to save their money more efficiently and what is their expense limit and income target in each month/weekly
--	“Suggest saving $5000” The system will calculate the income and expense last 30 days. If income-expense < 5000. The system will list out the top 3 variable expense in last 30 days and show how much variable expense should you reduce each week/day.
-Those are the major problem settings. 
+
 - Users are able to compare the income or expense on a certain aspect between different time period. For example, users can type "Compare E food", the system will output the amount of money spent on food last month and this month. User can have a clear understanding on the change of their spending habit. 
 
 We expect most of the problems should appear when designing and coding. However, it gives a basic blueprint to our programme.
