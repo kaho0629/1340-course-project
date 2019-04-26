@@ -1,4 +1,4 @@
- // ENGG 1340 course project - Financial system.
+// ENGG 1340 course project - Financial system.
 // The program includes the following functions:
 // add, view, print statement, edit, suggest wealth allocation, set budget.
 #include<iostream>
@@ -413,6 +413,7 @@ void change_info(char t)  // Function to edit record's infomation.
 
 int main() {
   int option;  //Option can be add, view etc.
+  cout << "Financial System" << endl;
   cout << "1. Add\n" << "2. View in categories\n" << "3. Print statement\n";
   cout << "4. Edit\n" << "5. Set budget\n" << "6. Suggestion\n" << "0. Exit"<< endl;
   cout << "Choose your option: ";
