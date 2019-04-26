@@ -1,4 +1,4 @@
-// ENGG 1340 course project - Financial system.
+ // ENGG 1340 course project - Financial system.
 // The program includes the following functions:
 // add, view, print statement, edit, suggest wealth allocation, set budget.
 #include<iostream>
@@ -19,7 +19,122 @@ struct data
 // So the input format should be: transaction amount date to_int_type
 // e.g. E 200 2019-Apr-23 entertainment
 
+void renewBudget()
+{
+  ifstream fin("renewBudget.txt");
+  ofstream fout("budget.txt");
+  string copyFile;
+  while(getline(fin , copyFile))
+ {
+   fout << copyFile << endl;
+ }
+ fin.close();
+ fout.close();
+}
+
+void recoverBudget(string date, string type, int amount)
+{
+  date = date.substr(0,date.length()-3);
+  cout << date;
+  string lineDate,lineType;
+  int lineAmount;
+  ifstream fin("budget.txt");
+  ofstream fout("renewBudget.txt");
+  while(fin >> lineDate >> lineType >> lineAmount)
+  {
+    if (lineDate == date && lineType == type)
+    {
+      lineAmount += amount;
+    }
+    if (lineDate == date && lineType == "ALL")
+    {
+      lineAmount += amount;
+    }
+    fout << lineDate << " " << lineType << " "<< lineAmount << endl;
+    cout << "Recovered budget: "<<lineDate << " " << lineType << " +$"<< lineAmount<<endl;
+  }
+  fin.close();
+  fout.close();
+  renewBudget();
+}
+
+
+// function of calculating the remaining budget
+
 void budgetChecker(int amount, string date, string type)
+{
+ ifstream fin("budget.txt");
+ ofstream fout("renewBudget.txt");
+ string x,y;
+ int z;
+ int tempamount;
+ date = date.substr(0,date.length()-3);
+ while(fin >> x >> y >> z)
+ {
+   if (x == date && y == type)
+   {
+     z = z - amount;
+     if (z < 0)
+     {
+       cout << "Alert: Using on " << y << " within the period of " << x << " was over budget!!!" << endl;
+       cout << "Do you want to delete this alert? (Y/N) : ";
+       string yesno;
+       cin >> yesno;
+       if (yesno == "Y")
+       {
+         y = "NULL";
+         cout << "Deleted this budget alert!" << endl;
+       }
+       else
+       {
+         cout << "We will remind you if you use this budget next time!" << endl;
+       }
+     }
+     else
+     {
+       cout <<"Alert: The remaining budget using on " << y << " within the period of " << x << " is $" << z << endl;
+    }
+   }
+   if (x == date && y == "ALL")
+   {
+     z = z - amount;
+     if (z < 0)
+     {
+       cout << "Alert: Using on " << y << " within the period of " << x << " was over budget!!!" << endl;
+       cout << "Do you want to delete this alert? (Y/N) : ";
+       string yesno;
+       cin >> yesno;
+       if (yesno == "Y")
+       {
+         y = "NULL";
+         cout << "Deleted this budget alert!" << endl;
+       }
+       else
+       {
+         cout << "We will remind you if you use this budget next time!" << endl;
+       }
+     }
+     else
+     {
+       cout <<"Alert: The remaining budget using on " << y << " within the period of " << x << " is $" << z << endl;
+     }
+   }
+   fout << x << " "<< y << " "<< z << endl;
+ }
+ fin.close();
+ fout.close();
+ renewBudget();
+
+}
+
+
+//function of set budget
+void makeBudget(string month, string category, int budget)
+{
+  ofstream fout("budget.txt", ios::app);
+  fout << month << " " << category << " " << budget << endl;
+  fout.close();
+}
 
 void add(int n)
 {
@@ -134,17 +249,56 @@ void make_statement(string month)
   fin_e.close();
 }
 
-void del_record()
+void delBudget()
+{
+  ifstream fin_bud("budget.txt");
+  ofstream fout("renewBudget.txt");
+  string x,y;
+  int z, counter = 0;
+  while(fin_bud >> x >> y >> z)
+  {
+    counter++;
+    cout << counter << ". " << x << " " << y << " " << z << endl;
+  }
+  cout << "Enter the no. of the record to be deleted : ";
+  int deletedLine;
+  cin >> deletedLine;
+  fin_bud.close();
+
+
+  int counter2 = 1;
+  ifstream fin_bud2("budget.txt");
+  for (int i = 1; i <= counter; i++)
+  {
+    fin_bud2 >> x >> y >> z;
+
+    if (i != deletedLine)
+      fout << x << " " << y << " " << z << endl;
+    counter2++;
+  }
+  fout.close();
+  fin_bud2.close();
+  renewBudget();
+}
+
+
+int del_record()
 {
   char t;
   data d;
   string filename;
-  cout << "\nDelete a record of Income(I) / Expense(E) : ";
+  cout << "\nDelete a record of Income(I) / Expense(E) / Budget(B): ";
   cin >> t;
   if(t == 'I')  //Delete an income
     filename = "income.txt";
   else if(t == 'E')
     filename = "expense.txt";
+  else if(t == 'B')
+  {
+    delBudget();
+    return 0;
+  }
+
 
   view_in_categories(t, "NA", "NA");
   cout << "\nEnter the no. of the record to be deleted : ";
@@ -157,7 +311,13 @@ void del_record()
   {
     counter++;
     if(counter == n)  // when it comes to the target record.
+    {
+    if(n > 0 && t == 'E')
+    {
+      recoverBudget(d.date, d.type, d.amount);
+    }
       continue;
+    }
     fout_tmp << d.amount << " " << d.date << " " << d.type << endl;
   }  // output all the records except the target record to a temporary file.
   fin.close();
@@ -170,6 +330,7 @@ void del_record()
    // output records in temp.txt to income.txt/expense.txt. The target will be removed.
   fin_tmp.close();
   fout.close();
+  return 0;
 }
 
 
@@ -239,99 +400,14 @@ void change_info(char t)  // Function to edit record's infomation.
   fin_tmp.open("temp.txt");
   while(fin_tmp >> d.amount >> d.date >> d.type)    // Output the temp.txt to income/expense.txt. Edit is done.
     fout << d.amount << " " << d.date << " " << d.type << endl;
-  
+
   fout.close();
   fin_tmp.close();
 }
 
-//function of renew the budget.txt
-void renewBudget()
-{
-  ifstream fin("renewBudget.txt");
-  ofstream fout("budget.txt");
-  string copyFile;
-  while(getline(fin , copyFile))
- {
-   fout << copyFile << endl;
- }
- fin.close();
- fout.close();
-}
-
-// function of calculating the remaining budget
-
-void budgetChecker(int amount, string date, string type)
-{
- ifstream fin("budget.txt");
- ofstream fout("renewBudget.txt");
- string x,y;
- int z;
- int tempamount;
- date = date.substr(0,date.length()-3);
- while(fin >> x >> y >> z)
- {
-   if (x == date && y == type)
-   {
-     z = z - amount;
-     if (z < 0)
-     {
-       cout << "Alert: Using on " << y << " within the period of " << x << " was over budget!!!" << endl;
-       cout << "Do you want to delete this alert? (Y/N) : ";
-       string yesno;
-       cin >> yesno;
-       if (yesno == "Y")
-       {
-         y = "NULL";
-       }
-       else
-       {
-         cout << "We will remind you if you use this budget next time!" << endl;
-       }
-     }
-     else
-     {
-       cout <<"Alert: The remaining budget using on " << y << " within the period of " << x << " is $" << z << endl;
-    }
-   }
-   if (x == date && y == "ALL")
-   {
-     z = z - amount;
-     if (z < 0)
-     {
-       cout << "Alert: Using on " << y << " within the period of " << x << " was over budget!!!" << endl;
-       cout << "Do you want to delete this alert? (Y/N) : ";
-       string yesno;
-       cin >> yesno;
-       if (yesno == "Y")
-       {
-         y = "NULL";
-       }
-       else
-       {
-         cout << "We will remind you if you use this budget next time!" << endl;
-       }
-     }
-     else
-     {
-       cout <<"Alert: The remaining budget using on " << y << " within the period of " << x << " is $" << z << endl;
-     }
-   }
-   fout << x << " "<< y << " "<< z << endl;
- }
- fin.close();
- fout.close();
- renewBudget();
- 
-}
 
 
-//function of set budget
-void makeBudget(string month, string category, int budget)
-{
-  ofstream fout("budget.txt", ios::app);
-  fout << month << " " << category << " "<< budget << endl;
-  fout.close();
-}
+
 
 
 
@@ -381,8 +457,6 @@ int main() {
         cout << "******Print Statement******\nEnter month : ";
         string month;
         cin >> month;
-
-        month = "2019-" + month;  //Only print statment that in 2019.
         make_statement(month);
         break;
       }
@@ -409,9 +483,14 @@ int main() {
       }
       case 5:
       {
-        cout << "******Budget Alert******\nEnter month (e.g 2019-Apr): ";
+        cout << "******Budget Alert Setting******\nEnter month (YYYY-MMM e.g. 2019-MAY) : ";
           string month;
           cin >> month;
+          while (month.length() != 8)
+          {
+            cout << "Wrong format!!!\nEnter month (YYYY-MMM e.g. 2019-MAY) :";
+            cin >> month;
+          }
           cout << "Enter a category (Type 'ALL' for all categories) :";
           string category;
           cin >> category;
@@ -421,10 +500,7 @@ int main() {
           cout << "Budget alert will remind you if you use over $ " << budget << " in " << category << " within the period of " << month << endl;
           makeBudget(month, category, budget);
       }
-      case 6:
-      {
 
-      }
     }
     cout << "\n\n1. Add\n" << "2. View in categories\n" << "3. Print statement\n";
     cout << "4. Edit\n" << "5. Set budget\n" << "6. Get suggestion\n" << "0. Exit"<< endl;
