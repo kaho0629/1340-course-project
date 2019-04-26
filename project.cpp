@@ -19,6 +19,8 @@ struct data
 // So the input format should be: transaction amount date to_int_type
 // e.g. E 200 2019-Apr-23 entertainment
 
+void budgetChecker(int amount, string date, string type)
+
 void add(int n)
 {
   fout_i.open("income.txt", ios::app);
@@ -172,21 +174,21 @@ void del_record()
 
 
 
-void change_info(char t)
+void change_info(char t)  // Function to edit record's infomation.
 {
   string filename;
   int n, info_type, counter = 1;
   data d;
-  if(t == 'I')  //Delete an income
+  if(t == 'I')  //Edit an income
     filename = "income.txt";
   else if(t == 'E')
     filename = "expense.txt";
 
-  view_in_categories(t, "NA", "NA");
-  cout << "\nWhich record would you like to edit (Enter the no.) : ";
+  view_in_categories(t, "NA", "NA"); // First print out all records.
+  cout << "\nWhich record would you like to edit (Enter the no.) : ";  // Let the user choose which one to edit.
   cin >> n;
   cout << "What would you like to edit : \n1. Amount\n2. Date\n3. Type\n4. All (Replace)\nYour option : ";
-  cin >> info_type;
+  cin >> info_type; // Choose the which information to edit. It can be amount, date, type or all.
 
   fin.open(filename.c_str());
   fout_tmp.open("temp.txt");
@@ -228,14 +230,14 @@ void change_info(char t)
       }
     }
     counter++;
-    fout_tmp << d.amount << " " << d.date << " " << d.type << endl;
+    fout_tmp << d.amount << " " << d.date << " " << d.type << endl;  // Output each record to the temporary file.
   }
   fin.close();
   fout_tmp.close();
 
   fout.open(filename.c_str());
   fin_tmp.open("temp.txt");
-  while(fin_tmp >> d.amount >> d.date >> d.type)
+  while(fin_tmp >> d.amount >> d.date >> d.type)    // Output the temp.txt to income/expense.txt. Edit is done.
     fout << d.amount << " " << d.date << " " << d.type << endl;
   
   fout.close();
