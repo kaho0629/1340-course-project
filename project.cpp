@@ -1,6 +1,6 @@
 // ENGG 1340 course project - Financial system.
 // The program includes the following functions:
-// add, view, print statement, edit, suggest wealth allocation, set budget.
+// add, view, print statement, edit, show wealth allocation, set budget.
 #include<iostream>
 #include<string>
 #include<fstream>
