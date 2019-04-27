@@ -12,8 +12,8 @@ Tracking of their income and expense is a good way to manage their wealth more e
 -	User can view the daily, monthly or yearly statement.
 5.	Budget setting.
 -	User can set the limits on their budget daily, monthly and yearly.
-6.	Edit and recover the records
--	User can edit and recover their previous records.
+6.	Edit the records
+-	User can edit their previous records.
 7.	Suggestion in wealth allocation
 -	We can give a simple saving plan or expanse plan to our user by using their record.
 Those functions are the basic idea of our programme. We may add some new functions if there is a spark of new idea.
@@ -37,12 +37,10 @@ Those functions are the basic idea of our programme. We may add some new functio
 -	First, type keyword “Budget”. Then we can provide options in different time scale and types of expense. Also, they can set the limits to give alerts when they used over a certain amount.
 -	“Budget coming weekly eat 1500” This command will set alert in 7 days afterwards. When the expense in eating is over $1500. “Over Budget!!” is pop-up.
 -	“Budget present monthly eat 5000” This command will set alert in present month. When the expense in eating is over $5000 in the same month. “Over Budget!!” is pop-up.
-7.	How users edit their records/ budget?
--	No matter how users add a complete modification to the system(e.g. added an expense with full details), the records and budget files will backup once(up to last 5 modification). User can recover up to last 5 modification.
--	Also, users can modify their records directly.
--	“Edit budget coming weekly eat 1500 correct present weekly eat 1500” This command will correct the budget setting from coming week to present week.
--	“Edit budget coming weekly eat 1500 delete” This command will delete the budget setting.
 
-- Users are able to compare the income or expense on a certain aspect between different time period. For example, users can type "Compare E food", the system will output the amount of money spent on food last month and this month. User can have a clear understanding on the change of their spending habit. 
+7.	How users edit their records/ budget?
+- Users can modify their records directly. They can choose to edit amount, date or type of a record independently.
+
+- User can have a clear understanding on the change of their spending habit. They can know the percentage of their expense or income of different type.
 
 We expect most of the problems should appear when designing and coding. However, it gives a basic blueprint to our programme.
