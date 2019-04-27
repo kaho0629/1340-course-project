@@ -405,6 +405,43 @@ void change_info(char t)  // Function to edit record's infomation.
   fin_tmp.close();
 }
 
+void wealth_allocation()  //View by Percentage.
+{
+  cout << "\nThis function can show you the proportion of your income / expense of each type." << endl;
+  string type, filename;
+  char t;
+  data d;
+  double total = 0, sum = 0;
+  cout << "Enter the type (In uppercase) : ";
+  cin >> type;
+  cout << "Proportion of " << type << " in Income / Expense. (I/E) : ";
+  cin >> t;
+
+  if(t == 'I')
+    filename = "income.txt";
+  else if(t == 'E')
+    filename = "expense.txt";
+
+  fin.open(filename.c_str());
+  if( fin.fail() )
+    cout << "Fail to open file. " << endl;
+  else
+  {
+    int i = 1;
+    cout << endl;
+    while(fin >> d.amount >> d.date >> d.type)
+    {
+      total += d.amount;
+      if(d.type == type)
+        sum += d.amount;
+      cout << i << "." << " " << d.amount << " " << d.date << " " << d.type << endl;
+      i++;
+    }
+    cout << "\nPercentage of " << type << " in your " << filename.erase(filename.length() - 4, 4) << " : ";
+    cout << fixed << setprecision(2) << (sum/total)*100 << "%" << endl;
+  }
+  fin.close();
+}
 
 
 
@@ -415,7 +452,7 @@ int main() {
   int option;  //Option can be add, view etc.
   cout << "Financial System" << endl;
   cout << "1. Add\n" << "2. View in categories\n" << "3. Print statement\n";
-  cout << "4. Edit\n" << "5. Set budget\n" << "6. Suggestion\n" << "0. Exit"<< endl;
+  cout << "4. Edit\n" << "5. Set budget\n" << "6. Wealth allocation\n" << "0. Exit"<< endl;
   cout << "Choose your option: ";
   cin >> option;
 
@@ -485,26 +522,32 @@ int main() {
       case 5:
       {
         cout << "******Budget Alert Setting******\nEnter month (YYYY-MMM e.g. 2019-MAY) : ";
-          string month;
+        string month;
+        cin >> month;
+        while (month.length() != 8)
+        {
+          cout << "Wrong format!!!\nEnter month (YYYY-MMM e.g. 2019-MAY) :";
           cin >> month;
-          while (month.length() != 8)
-          {
-            cout << "Wrong format!!!\nEnter month (YYYY-MMM e.g. 2019-MAY) :";
-            cin >> month;
-          }
-          cout << "Enter a category (Type 'ALL' for all categories) :";
-          string category;
-          cin >> category;
-          cout << "Enter amont of budget : ";
-          int budget;
-          cin >> budget;
-          cout << "Budget alert will remind you if you use over $ " << budget << " in " << category << " within the period of " << month << endl;
-          makeBudget(month, category, budget);
+        }
+        cout << "Enter a category (Type 'ALL' for all categories) :";
+        string category;
+        cin >> category;
+        cout << "Enter amont of budget : ";
+        int budget;
+        cin >> budget;
+        cout << "Budget alert will remind you if you use over $ " << budget << " in " << category << " within the period of " << month << endl;
+        makeBudget(month, category, budget);
+        break;       
+      }
+      case 6:
+      {
+        wealth_allocation();
+        break;
       }
 
     }
     cout << "\n\n1. Add\n" << "2. View in categories\n" << "3. Print statement\n";
-    cout << "4. Edit\n" << "5. Set budget\n" << "6. Get suggestion\n" << "0. Exit"<< endl;
+    cout << "4. Edit\n" << "5. Set budget\n" << "6. Wealth allocation\n" << "0. Exit"<< endl;
     cout << "Choose your option: ";
     cin >> option;
   }
