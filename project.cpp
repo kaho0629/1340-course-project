@@ -16,7 +16,7 @@ struct data
   double amount; // Amount of money.
   string date, type; // Date and type.
 };
-// So the input format should be: transaction amount date to_int_type
+// So the input format should be: transaction amount date type
 // e.g. E 200 2019-APR-23 entertainment
 
 void renewBudget()
