@@ -17,7 +17,7 @@ struct data
   string date, type; // Date and type.
 };
 // So the input format should be: transaction amount date to_int_type
-// e.g. E 200 2019-Apr-23 entertainment
+// e.g. E 200 2019-APR-23 entertainment
 
 void renewBudget()
 {
@@ -299,7 +299,6 @@ int del_record()
     return 0;
   }
 
-
   view_in_categories(t, "NA", "NA");
   cout << "\nEnter the no. of the record to be deleted : ";
   int n, counter = 0;
@@ -332,8 +331,6 @@ int del_record()
   fout.close();
   return 0;
 }
-
-
 
 void change_info(char t)  // Function to edit record's infomation.
 {
@@ -414,7 +411,7 @@ void wealth_allocation()  //View by Percentage.
   double total = 0, sum = 0;
   cout << "Enter the type (In uppercase) : ";
   cin >> type;
-  cout << "Proportion of " << type << " in Income / Expense. (I/E) : ";
+  cout << "Proportion of " << type << " in Income / Expense ? (I/E) : ";
   cin >> t;
 
   if(t == 'I')
@@ -442,10 +439,6 @@ void wealth_allocation()  //View by Percentage.
   }
   fin.close();
 }
-
-
-
-
 
 
 int main() {
