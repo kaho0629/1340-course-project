@@ -161,7 +161,7 @@ void add(int n)
     cin >> data_ptr[i].type;
 
     if(transaction == 'E')
-      {
+    {
       fout_e << data_ptr[i].amount << " " << data_ptr[i].date << " " << data_ptr[i].type << endl;
       budgetChecker(data_ptr[i].amount,data_ptr[i].date,data_ptr[i].type);
     }
@@ -174,7 +174,7 @@ void add(int n)
   delete [] data_ptr;
 }
 
-void view_in_categories(char transaction, string date, string type)
+int view_in_categories(char transaction, string date, string type)
 {
   string filename;
   if(transaction != 'I' && transaction != 'E')
@@ -186,7 +186,10 @@ void view_in_categories(char transaction, string date, string type)
 
   fin.open(filename.c_str());
   if(fin.fail())
+  {
     cout << "\nFail to open file.\n";
+    return 0;
+  }
   else
   {
     if(date == "NA")  // Do not limites by date. Any date will do.
@@ -211,17 +214,21 @@ void view_in_categories(char transaction, string date, string type)
     if(counter == 1)
       cout << "No " << filename.erase(filename.length()-4, 4)<< " record found!";
     fin.close();
+    return 1;
   }
 }
 
-void make_statement(string month)
+int make_statement(string month)
 {
   double sum = 0;
   data d;
   fin_e.open("expense.txt");
   fin_i.open("income.txt");
   if(fin_e.fail() || fin_i.fail())
+  {
     cout << "Fail to open file." << endl;
+    return 0;
+  }
   else
   {
     int counter = 1;
@@ -247,6 +254,7 @@ void make_statement(string month)
   }
   fin_i.close();
   fin_e.close();
+  return 1;
 }
 
 void delBudget()
@@ -402,7 +410,7 @@ void change_info(char t)  // Function to edit record's infomation.
   fin_tmp.close();
 }
 
-void wealth_allocation()  //View by Percentage.
+int wealth_allocation()  //View by Percentage.
 {
   cout << "\nThis function can show you the proportion of your income / expense of each type." << endl;
   string type, filename;
@@ -421,7 +429,10 @@ void wealth_allocation()  //View by Percentage.
 
   fin.open(filename.c_str());
   if( fin.fail() )
+  {
     cout << "Fail to open file. " << endl;
+    return 0;
+  }
   else
   {
     int i = 1;
@@ -438,6 +449,7 @@ void wealth_allocation()  //View by Percentage.
     cout << fixed << setprecision(2) << (sum/total)*100 << "%" << endl;
   }
   fin.close();
+  return 1;
 }
 
 
@@ -477,7 +489,7 @@ int main() {
 
         cout << "Income(I) / Expense(E) / Both(B) : ";
         cin >> transaction;
-        cout << "Time period: ";
+        cout << "Time period (e.g. 2019-APR) : ";
         cin >> date;
         cout << "Type: ";
         cin >> type;
@@ -492,7 +504,7 @@ int main() {
       }
       case 3: //Statement
       {
-        cout << "******Print Statement******\nEnter month : ";
+        cout << "******Print Statement******\nEnter month (e.g. 2019-APR) : ";
         string month;
         cin >> month;
         make_statement(month);
@@ -537,7 +549,7 @@ int main() {
         cin >> budget;
         cout << "Budget alert will remind you if you use over $ " << budget << " in " << category << " within the period of " << month << endl;
         makeBudget(month, category, budget);
-        break;       
+        break;
       }
       case 6:
       {
