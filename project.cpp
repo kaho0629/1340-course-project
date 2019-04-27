@@ -455,6 +455,13 @@ int main() {
   cout << "4. Edit\n" << "5. Set budget\n" << "6. Wealth allocation\n" << "0. Exit"<< endl;
   cout << "Choose your option: ";
   cin >> option;
+  while( cin.fail() )
+  {
+    cin.clear();
+    cout << "Invalid input type. Please try again : " << endl;
+    cin.ignore(100, '\n');
+    cin >> option;
+  }
 
   while(option != 0)
   {
